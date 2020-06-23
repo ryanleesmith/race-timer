@@ -2,7 +2,7 @@ from gps import *
 import math
 import time
 
-def stream():
+def timer():
     gpsd = gps(mode=WATCH_ENABLE|WATCH_NEWSTYLE)
 
     start = 0

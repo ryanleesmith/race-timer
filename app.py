@@ -1,6 +1,6 @@
 from flask import Flask, render_template, Response
 from gps import *
-from timer import stream
+from timer import timer
 import math
 import time
 
@@ -16,4 +16,4 @@ def stream():
         while True:
             yield "Hello"
     
-    return Response(stream(), mimetype="text/event-stream")
+    return Response(timer(), mimetype="text/event-stream")
