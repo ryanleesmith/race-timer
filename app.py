@@ -61,7 +61,7 @@ def gpsStream():
                             prev_speed = 0
                             started = False
                             for key in data:
-                                yield "Time: {}\n\n".format(data[key])"
+                                yield "Time: {}\n\n".format(data[key])
                                 #print('%s: %.2f' % (key, data[key]))
             time.sleep(.1)
     except (KeyboardInterrupt, SystemExit):
