@@ -38,7 +38,7 @@ def gpsStream():
                     #print('%.2f' % (curr_speed))
                     if math.floor(curr_speed) == 0:
                         #print("Starting")
-                        yield "Starting\n\n"
+                        yield "data: {}\n\n".format("Starting...")
                         start = time.time()
                         started = True
                         prev_speed = 0
@@ -61,7 +61,7 @@ def gpsStream():
                             prev_speed = 0
                             started = False
                             for key in data:
-                                yield "Time: {}\n\n".format(data[key])
+                                yield "data: {}\n\n".format(data[key])
                                 #print('%s: %.2f' % (key, data[key]))
             time.sleep(.1)
     except (KeyboardInterrupt, SystemExit):
