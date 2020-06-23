@@ -53,7 +53,7 @@ def timer():
                         #yield "data: Come to stop\n\n"
                 else:
                     #yield "data: Could not obtain speed\n\n"
-                    dump = json.dumps({"x: {}, y: {}".format(time.time(), 0)})
+                    dump = json.dumps({"x": time.time(), "y": 0})
                     yield "data: {}\n\n".format(dump)
             time.sleep(.1)
     except (KeyboardInterrupt, SystemExit):
