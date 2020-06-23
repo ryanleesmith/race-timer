@@ -45,7 +45,11 @@
         source.addEventListener('message', function(e) {
           console.log(e);
           console.log(e.data);
-          document.getElementById('data').innerHTML = e.data;
+          var data = JSON.parse(e.data);
+          dps.push({
+            x: new Date(data.x),
+            y: data.y
+          });
           updateChart();
         }, false)
 
