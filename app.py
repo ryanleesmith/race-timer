@@ -6,7 +6,7 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@route("/stream")
+@app.route("/stream")
 def stream():
     def eventStream():
         while True:
