@@ -1,0 +1,27 @@
+{
+  "name": "race-timer",
+  "version": "0.1",
+  "description": "Race Timer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ryanleesmith/race-timer.git"
+  },
+  "author": "Ryan Smith",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ryanleesmith/race-timer/issues"
+  },
+  "homepage": "https://github.com/ryanleesmith/race-timer#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "engines": {
+    "node": ">=7.0.0"
+  },
+  "preferGlobal": true
+}
