@@ -1,7 +1,8 @@
+<!DOCTYPE HTML>
 <html>
 <head>
   <script>
-  if (!!window.EventSource) {
+  /*if (!!window.EventSource) {
     var source = new EventSource('/stream')
 
     source.addEventListener('message', function(e) {
@@ -27,11 +28,103 @@
     }, false)
   } else {
     console.log("Your browser doesn't support SSE");
-  }
+  }*/
   </script>
+  <script type="text/javascript">
+    window.onload = function () {
+      var dps = [];
+      var speed = 0;
+      var hit30 = false;
+      var hit60 = false;
+
+      var start = new Date().getTime();
+      var chart = new CanvasJS.Chart("chartContainer",
+      {
+        title: {
+          text: "Race Timer"
+        },
+        axisX: {
+          interval: 1,
+          intervalType: "second",
+        },
+        axisY: {
+          title: "Speed (MPH)"
+        },
+        data: [
+        {
+          type: "line",
+          dataPoints: dps
+          /*dataPoints: [
+            { x: new Date(start), y: 0 },
+            { x: new Date(start + 100), y: 1 },
+            { x: new Date(start + 200), y: 5 },
+            { x: new Date(start + 300), y: 8 },
+            { x: new Date(start + 400), y: 12 },
+            { x: new Date(start + 500), y: 15 },
+            { x: new Date(start + 600), y: 19 },
+            { x: new Date(start + 700), y: 23 },
+            { x: new Date(start + 800), y: 26 },
+            { x: new Date(start + 900), y: 29 },
+            { x: new Date(start + 1000), y: 32 },
+            { x: new Date(start + 1100), y: 34 },
+            { x: new Date(start + 1200), y: 36 },
+            { x: new Date(start + 1300), y: 38 },
+            { x: new Date(start + 1400), y: 40 },
+            { x: new Date(start + 1500), y: 42 },
+            { x: new Date(start + 1600), y: 44 },
+            { x: new Date(start + 1700), y: 46 },
+            { x: new Date(start + 1800), y: 47 },
+            { x: new Date(start + 1900), y: 48 },
+            { x: new Date(start + 2000), y: 49 },
+            { x: new Date(start + 2100), y: 50 },
+            { x: new Date(start + 2200), y: 51 },
+            { x: new Date(start + 2300), y: 52 },
+            { x: new Date(start + 2400), y: 53 },
+            { x: new Date(start + 2500), y: 54 },
+            { x: new Date(start + 2600), y: 55 },
+            { x: new Date(start + 2700), y: 56 },
+            { x: new Date(start + 2800), y: 57 },
+            { x: new Date(start + 2900), y: 58 },
+            { x: new Date(start + 3000), y: 59 },
+            { x: new Date(start + 3100), y: 60 }
+          ]*/
+        }
+        ]
+      });
+      var updateChart = function() {
+        if (hit60) {
+          speed--;
+        } else {
+          speed++;
+        }
+        dps.push({
+            x: new Date(),
+            y: speed
+        });
+        if (speed == 60) {
+          hit60 = true;
+          hit30 = false;
+        }
+        if (speed == 30 && hit60) {
+          hit30 = true;
+          hit60 = false;
+        }
+        if (dps.length > 60) {
+          dps.shift();
+        }
+        chart.render();
+      };
+
+      updateChart();
+      setInterval(function(){updateChart()}, 100);
+      //chart.render();
+    }
+    </script>
+   <script type="text/javascript" src="canvasjs.min.js"></script>
 </head>
 <body>
-  <h1>SSE: <span id="state"></span></h1>
-  <h3>Data: <span id="data"></span></h3>
+  <!--<h1>SSE: <span id="state"></span></h1>
+  <h3>Data: <span id="data"></span></h3>-->
+  <div id="chartContainer" style="height: 300px; width: 50%;"></div>
 </body>
 </html>
