@@ -26,7 +26,7 @@
       });
 
       var updateChart = function() {
-        if (dps.length > 100) {
+        if (dps.length > 60) {
           dps.shift();
         }
         chart.render();
@@ -76,6 +76,6 @@
 <body>
   <h1>SSE: <span id="state"></span></h1>
   <!--<h3>Data: <span id="data"></span></h3>--> 
-  <div id="chartContainer" style="height: 300px; width: 50%;"></div>
+  <div id="chartContainer" style="height: 300px; width: 100%;"></div>
 </body>
 </html>
