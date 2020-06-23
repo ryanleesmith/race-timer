@@ -39,16 +39,12 @@
         var source = new EventSource('/stream')
 
         source.addEventListener('message', function(e) {
-          console.log(e);
-          console.log(e.data);
           var data = JSON.parse(e.data);
           dps.push({
             x: new Date(data.x),
             y: data.y
           });
           updateChart();
-          console.log(data);
-          console.log(dps);
         }, false)
 
         source.addEventListener('open', function(e) {
