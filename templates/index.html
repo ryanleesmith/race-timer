@@ -40,7 +40,7 @@
       //setInterval(updateChart, 100);
 
       if (!!window.EventSource) {
-        var source = new EventSource('http://10.172.1.57:5000/stream')
+        var source = new EventSource('/stream')
 
         source.addEventListener('message', function(e) {
           console.log(e);
