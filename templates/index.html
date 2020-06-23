@@ -26,10 +26,6 @@
       });
 
       var updateChart = function() {
-        dps.push({
-            x: new Date(),
-            y: 5
-        });
         if (dps.length > 100) {
           dps.shift();
         }
@@ -51,6 +47,8 @@
             y: data.y
           });
           updateChart();
+          console.log(data);
+          console.log(dps);
         }, false)
 
         source.addEventListener('open', function(e) {
