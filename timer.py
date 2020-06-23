@@ -47,7 +47,7 @@ def timer():
                                 data['30'] = 'N/A'
                             if '60' not in data:
                                 data['60'] = 'N/A'
-                            yield "data: 30: {}\n\n60: {}\n\n".format(data['30'], data['60'])
+                            yield "data: 30: {}\t60: {}\n\n".format(data['30'], data['60'])
                     #else:
                         #yield "data: Come to stop\n\n"
                 else:
