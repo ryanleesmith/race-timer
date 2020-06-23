@@ -2,7 +2,7 @@
 <head>
   <script>
   if (!!window.EventSource) {
-    var source = new EventSource('/countdown')
+    var source = new EventSource('/stream')
 
     source.addEventListener('message', function(e) {
       document.getElementById('data').innerHTML = e.data
