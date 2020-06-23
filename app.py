@@ -17,16 +17,16 @@ def stream():
     
     return Response(gpsStream(), mimetype="text/event-stream")
 
-gpsd = gps(mode=WATCH_ENABLE|WATCH_NEWSTYLE)
-
-speed = 0
-start = 0
-started = False
-curr_speed = 0
-prev_speed = 0
-data = {}
-
 def gpsStream():
+    gpsd = gps(mode=WATCH_ENABLE|WATCH_NEWSTYLE)
+
+    speed = 0
+    start = 0
+    started = False
+    curr_speed = 0
+    prev_speed = 0
+    data = {}
+
     try:
         while True:
             report = gpsd.next()
