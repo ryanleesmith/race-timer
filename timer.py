@@ -1,6 +1,7 @@
 from gps import *
 import math
 import time
+import json
 
 def timer():
     gpsd = gps(mode=WATCH_ENABLE|WATCH_NEWSTYLE)
@@ -20,13 +21,13 @@ def timer():
                     curr_speed = speed * 2.237
                     #print('%.2f' % (curr_speed))
                     if math.floor(curr_speed) == 0:
-                        yield "data: Ready\n\n"
+                        #yield "data: Ready\n\n"
                         start = time.time()
                         started = True
                         prev_speed = 0
                         data = {}
                     elif started:
-                        yield "data: Timing...\n\n"
+                        #yield "data: Timing...\n\n"
                         #print('%.2f %.2f' % (curr_speed, prev_speed))
                         #if curr_speed > 61:
                         #    curr_speed = 0
@@ -47,11 +48,13 @@ def timer():
                                 data['30'] = 'N/A'
                             if '60' not in data:
                                 data['60'] = 'N/A'
-                            yield "data: 30: {}\t60: {}\n\n".format(data['30'], data['60'])
+                            #yield "data: 30: {}\t60: {}\n\n".format(data['30'], data['60'])
                     #else:
                         #yield "data: Come to stop\n\n"
                 else:
-                    yield "data: Could not obtain speed\n\n"
+                    #yield "data: Could not obtain speed\n\n"
+                    dump = json.dumps("x: {}, y: {}".format(time.time(), 0))
+                    yield "data: {}\n\n".format(dump)
             time.sleep(.1)
     except (KeyboardInterrupt, SystemExit):
         print("Done.\nExiting.")
