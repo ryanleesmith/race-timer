@@ -19,7 +19,7 @@ def timer():
             report = gpsd.next()
             if report['class'] == 'TPV':
                 #speed = float(getattr(report, 'speed', 'nan'))
-                speed = speed + 0.1
+                speed = speed + 1
                 if speed >= 62:
                     speed = 60
                 if math.isnan(speed):
