@@ -15,8 +15,11 @@ def timer():
     speed = 0
 
     try:
+        run = int(round(time.time() * 1000))
         while True:
             report = gpsd.next()
+            print(int(round(time.time() * 1000)) - run)
+            run = int(round(time.time() * 1000))
             if report['class'] == 'DEVICES':
                 print(report)
             #if report['class'] == 'TPV':
@@ -28,7 +31,7 @@ def timer():
 
             #speed = math.floor(speed * 2.237)
             dump = json.dumps({'x': int(round(time.time() * 1000)), 'y': speed})
-            print(dump)
+            #print(dump)
             yield 'event: SPEED\ndata: {}\n\n'.format(dump)
 
             if speed == 0:
