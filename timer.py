@@ -66,6 +66,6 @@ def timer():
                 speed = speed + 0.75
                 if speed >= 62:
                     speed = 60
-            time.sleep(.1)
+            time.sleep(.5)
     except (KeyboardInterrupt, SystemExit):
         print("Done.\nExiting.")
