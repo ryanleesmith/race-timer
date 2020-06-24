@@ -16,7 +16,9 @@ def timer():
 
     try:
         while True:
-            #report = gpsd.next()
+            report = gpsd.next()
+            if report['class'] == 'DEVICES':
+                print(report)
             #if report['class'] == 'TPV':
             #speed = float(getattr(report, 'speed', 'nan'))
             
