@@ -12,11 +12,16 @@ def timer():
     prev_speed = 0
     data = {}
 
+    speed = 0
+
     try:
         while True:
             report = gpsd.next()
             if report['class'] == 'TPV':
-                speed = float(getattr(report, 'speed', 'nan'))
+                #speed = float(getattr(report, 'speed', 'nan'))
+                speed += 0.1
+                if speed >= 62:
+                    speed = 60
                 if math.isnan(speed):
                     speed = 0
                     yield 'event: STATUS\ndata: SPEED_UNKNOWN\n\n'
