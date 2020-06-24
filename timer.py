@@ -41,11 +41,13 @@ def timer():
                         prev_speed = speed
                         if speed >= 30 and '30' not in data:
                             diff = time.time() - start
+                            data['30'] = diff
                             dump = json.dumps({'30': diff})
                             yield 'event: RESULT\ndata: {}\n\n'.format(dump)
                         if speed >= 60 and '60' not in data:
                             finished = True
                             diff = time.time() - start
+                            data['60'] = diff
                             dump = json.dumps({'60': diff})
                             yield 'event: RESULT\ndata: {}\n\n'.format(dump)
                     else:
@@ -61,7 +63,7 @@ def timer():
                 elif not finished:
                     yield 'event: STATUS\ndata: NOT_READY\n\n'
 
-                speed = speed + 0.1
+                speed = speed + 0.4
                 if speed >= 62:
                     speed = 60
             time.sleep(.1)
