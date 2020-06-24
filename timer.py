@@ -28,6 +28,7 @@ def timer():
 
             #speed = math.floor(speed * 2.237)
             dump = json.dumps({'x': int(round(time.time() * 1000)), 'y': speed})
+            print(dump)
             yield 'event: SPEED\ndata: {}\n\n'.format(dump)
 
             if speed == 0:
