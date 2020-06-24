@@ -17,48 +17,42 @@ def timer():
             report = gpsd.next()
             if report['class'] == 'TPV':
                 speed = float(getattr(report, 'speed', 'nan'))
-                if not math.isnan(speed):
-                    curr_speed = speed * 2.237
+                if math.isnan(speed):
+                    speed = 0
+                    yield 'event: SPEED_UNKNOWN\n\n'
 
-                    dump = json.dumps({"x": int(round(time.time() * 1000)), "y": curr_speed})
-                    yield "data: {}\n\n".format(dump)
+                curr_speed = math.floor(speed * 2.237)
+                dump = json.dumps({'x': int(round(time.time() * 1000)), 'y': curr_speed})
+                yield 'event: SPEED\ndata: {}\n\n'.format(dump)
 
-                    #print('%.2f' % (curr_speed))
-                    if math.floor(curr_speed) == 0:
-                        #yield "data: Ready\n\n"
-                        start = time.time()
-                        started = True
+                if curr_speed == 0:
+                    #yield "data: Ready\n\n"
+                    start = time.time()
+                    started = True
+                    prev_speed = 0
+                    data = {}
+                elif started:
+                    #yield "data: Timing...\n\n"
+                    if curr_speed > prev_speed:
+                        prev_speed = curr_speed
+                        if curr_speed >= 30 and '30' not in data:
+                            diff = time.time() - start
+                            data['30'] = diff
+                        if curr_speed >= 60 and '60' not in data:
+                            diff = time.time() - start
+                            data['60'] = diff
+                    else:
+                        speed = 0
+                        curr_speed = 0
                         prev_speed = 0
-                        data = {}
-                    elif started:
-                        #yield "data: Timing...\n\n"
-                        #print('%.2f %.2f' % (curr_speed, prev_speed))
-                        #if curr_speed > 61:
-                        #    curr_speed = 0
-                        if curr_speed > prev_speed:
-                            prev_speed = curr_speed
-                            if curr_speed >= 30 and '30' not in data:
-                                diff = time.time() - start
-                                data['30'] = diff
-                            if curr_speed >= 60 and '60' not in data:
-                                diff = time.time() - start
-                                data['60'] = diff
-                        else:
-                            speed = 0
-                            curr_speed = 0
-                            prev_speed = 0
-                            started = False
-                            if '30' not in data:
-                                data['30'] = 'N/A'
-                            if '60' not in data:
-                                data['60'] = 'N/A'
-                            #yield "data: 30: {}\t60: {}\n\n".format(data['30'], data['60'])
-                    #else:
-                        #yield "data: Come to stop\n\n"
-                else:
-                    #yield "data: Could not obtain speed\n\n"
-                    dump = json.dumps({"x": int(round(time.time() * 1000)), "y": 0})
-                    yield "data: {}\n\n".format(dump)
+                        started = False
+                        if '30' not in data:
+                            data['30'] = 'N/A'
+                        if '60' not in data:
+                            data['60'] = 'N/A'
+                        #yield "data: 30: {}\t60: {}\n\n".format(data['30'], data['60'])
+                #else:
+                    #yield "data: Come to stop\n\n"
             time.sleep(.1)
     except (KeyboardInterrupt, SystemExit):
         print("Done.\nExiting.")

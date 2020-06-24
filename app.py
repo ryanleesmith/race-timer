@@ -10,10 +10,6 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route("/stream")
+@app.route('/stream')
 def stream():
-    def eventStream():
-        while True:
-            yield "Hello"
-    
-    return Response(timer(), mimetype="text/event-stream")
+    return Response(timer(), mimetype='text/event-stream')
