@@ -47,6 +47,15 @@
             case 'READY':
               status = 'Ready';
               break;
+            case 'TIMING':
+              status = 'Timing';
+              break;
+            case 'FINISHED':
+              status = 'Finished';
+              break;
+            case 'NOT_READY':
+              status = 'Not Ready';
+              break;
           }
           document.getElementById('status').innerHTML = status;
         }, false)
@@ -57,6 +66,17 @@
             x: new Date(data.x),
             y: data.y
           });
+          updateChart();
+        }, false)
+
+        source.addEventListener('RESULT', function(e) {
+          var data = JSON.parse(e.data);
+          if (data['30']) {
+            document.getElementById('30').innerHTML = data['30'];
+          }
+          if (data['60']) {
+            document.getElementById('60').innerHTML = data['60'];
+          }
           updateChart();
         }, false)
 
@@ -84,6 +104,8 @@
 <body>
   <h3>SSE: <span id="state"></span></h3>
   <h3>Status: <span id="status"></span></h3>
+  <h3>0-30: <span id="30"></span></h3>
+  <h3>0-60: <span id="60"></span></h3>
   <div id="chartContainer" style="height: 300px; width: 100%;"></div>
 </body>
 </html>
