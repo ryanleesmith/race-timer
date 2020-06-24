@@ -19,14 +19,14 @@ def timer():
                 speed = float(getattr(report, 'speed', 'nan'))
                 if math.isnan(speed):
                     speed = 0
-                    yield 'event: SPEED_UNKNOWN\n\n'
+                    yield 'event: STATUS\ndata: SPEED_UNKNOWN\n\n'
 
                 curr_speed = math.floor(speed * 2.237)
                 dump = json.dumps({'x': int(round(time.time() * 1000)), 'y': curr_speed})
                 yield 'event: SPEED\ndata: {}\n\n'.format(dump)
 
                 if curr_speed == 0:
-                    #yield "data: Ready\n\n"
+                    yield 'event: STATUS\ndata: READY\n\n'
                     start = time.time()
                     started = True
                     prev_speed = 0

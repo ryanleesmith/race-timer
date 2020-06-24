@@ -38,8 +38,17 @@
       if (!!window.EventSource) {
         var source = new EventSource('/stream')
 
-        source.addEventListener('SPEED_UNKNOWN', function(e) {
-          document.getElementById('status').innerHTML = "Speed Unknown";
+        source.addEventListener('STATUS', function(e) {
+          var status = '';
+          switch(e.data) {
+            case 'SPEED_UNKNOWN':
+              status = 'Speed Unknown';
+              break;
+            case 'READY':
+              status = 'Ready';
+              break;
+          }
+          document.getElementById('status').innerHTML = status;
         }, false)
 
         source.addEventListener('SPEED', function(e) {
