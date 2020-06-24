@@ -19,14 +19,12 @@ def timer():
             report = gpsd.next()
             if report['class'] == 'TPV':
                 #speed = float(getattr(report, 'speed', 'nan'))
-                speed = speed + 1
-                if speed >= 62:
-                    speed = 60
+                
                 if math.isnan(speed):
                     speed = 0
                     yield 'event: STATUS\ndata: SPEED_UNKNOWN\n\n'
 
-                speed = math.floor(speed * 2.237)
+                #speed = math.floor(speed * 2.237)
                 dump = json.dumps({'x': int(round(time.time() * 1000)), 'y': speed})
                 yield 'event: SPEED\ndata: {}\n\n'.format(dump)
 
@@ -62,6 +60,10 @@ def timer():
                         yield 'event: STATUS\ndata: FINISHED\n\n'
                 elif not finished:
                     yield 'event: STATUS\ndata: NOT_READY\n\n'
+
+                speed = speed + 0.1
+                if speed >= 62:
+                    speed = 60
             time.sleep(.1)
     except (KeyboardInterrupt, SystemExit):
         print("Done.\nExiting.")
