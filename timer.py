@@ -63,7 +63,7 @@ def timer():
                 elif not finished:
                     yield 'event: STATUS\ndata: NOT_READY\n\n'
 
-                speed = speed + 0.4
+                speed = speed + 0.75
                 if speed >= 62:
                     speed = 60
             time.sleep(.1)
