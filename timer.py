@@ -17,8 +17,8 @@ def timer():
     try:
         while True:
             report = gpsd.next()
-            #if report['class'] == 'DEVICES':
-                #print(report)
+            if report['class'] == 'DEVICES':
+                print(report)
             #if report['class'] == 'TPV':
             #speed = float(getattr(report, 'speed', 'nan'))
             
@@ -68,6 +68,6 @@ def timer():
             speed = speed + 0.1
             if speed >= 62:
                 speed = 60
-            time.sleep(0.1)
+            #time.sleep(0.1)
     except (KeyboardInterrupt, SystemExit):
         print("Done.\nExiting.")
