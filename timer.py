@@ -18,9 +18,12 @@ def timer():
         run = int(round(time.time() * 1000))
         while True:
             report = gpsd.next()
+            if report['class'] == 'DEVICES' or report['class'] == 'SKY':
+                print(report)
+                continue
             print(int(round(time.time() * 1000)) - run)
             run = int(round(time.time() * 1000))
-            if report['class'] == 'DEVICES' or report['class'] == 'TPV' or report['class'] == 'SKY':
+            if report['class'] == 'TPV':
                 print(report)
             #speed = float(getattr(report, 'speed', 'nan'))
             
