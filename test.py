@@ -6,9 +6,9 @@ def parseGPS(data):
 #    print "raw:", data #prints raw data
     #print(data)
     data = data.decode("utf-8") 
-    print(data[0:6])
+    #print(data[0:6])
     if data[0:6] == "$GNVTG":
-        print("getting speed")
+        #print("getting speed")
         sdata = data.split(",")
         if sdata[2] == 'V':
             print("no satellite data available")
@@ -36,7 +36,7 @@ def decode(coord):
  
  
 print("Receiving GPS data")
-ser = serial.Serial(port, baudrate = 9600, timeout = 0.5)
+ser = serial.Serial(port, baudrate = 115200, timeout = 0.5)
 while True:
    data = ser.readline()
    parseGPS(data)
