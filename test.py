@@ -7,9 +7,8 @@ def parseGPS(data):
     if data[0:6] == "$GPRMC":
         sdata = data.split(",")
         if sdata[2] == 'V':
-            print "no satellite data available"
+            print("no satellite data available")
             return
-        print "---Parsing GPRMC---",
         time = sdata[1][0:2] + ":" + sdata[1][2:4] + ":" + sdata[1][4:6]
         lat = decode(sdata[3]) #latitude
         dirLat = sdata[4]      #latitude direction N/S
@@ -19,7 +18,8 @@ def parseGPS(data):
         trCourse = sdata[8]    #True course
         date = sdata[9][0:2] + "/" + sdata[9][2:4] + "/" + sdata[9][4:6]#date
  
-        print "time : %s, latitude : %s(%s), longitude : %s(%s), speed : %s, True Course : %s, Date : %s" %  (time,lat,dirLat,lon,dirLon,speed,trCourse,date)
+        #print "time : %s, latitude : %s(%s), longitude : %s(%s), speed : %s, True Course : %s, Date : %s" %  (time,lat,dirLat,lon,dirLon,speed,trCourse,date)
+        print(speed)
  
 def decode(coord):
     #Converts DDDMM.MMMMM > DD deg MM.MMMMM min
@@ -31,7 +31,7 @@ def decode(coord):
     return deg + " deg " + min + "." + tail + " min"
  
  
-print "Receiving GPS data"
+print("Receiving GPS data")
 ser = serial.Serial(port, baudrate = 9600, timeout = 0.5)
 while True:
    data = ser.readline()
