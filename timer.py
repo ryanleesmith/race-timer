@@ -18,7 +18,7 @@ def timer():
         run = int(round(time.time() * 1000))
         while True:
             report = gpsd.next()
-            print report['class']
+            print(report['class'])
             #if report['class'] == 'DEVICES' or report['class'] == 'SKY':
             #    print(report)
                 #continue
