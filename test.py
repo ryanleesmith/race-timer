@@ -4,6 +4,7 @@ port = "/dev/serial0"
  
 def parseGPS(data):
 #    print "raw:", data #prints raw data
+    print(data)
     if data[0:6] == "$GPRMC":
         sdata = data.split(",")
         if sdata[2] == 'V':
