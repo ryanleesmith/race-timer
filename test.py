@@ -5,6 +5,7 @@ port = "/dev/serial0"
 def parseGPS(data):
 #    print "raw:", data #prints raw data
     print(data)
+    print(data[0:6])
     if data[0:6] == "$GNVTG":
         sdata = data.split(",")
         if sdata[2] == 'V':
