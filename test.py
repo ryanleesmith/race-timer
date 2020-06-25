@@ -5,8 +5,9 @@ port = "/dev/serial0"
 def parseGPS(data):
 #    print "raw:", data #prints raw data
     #print(data)
-    print(data[0:6].decode("utf-8"))
-    if data[0:6].decode("utf-8") == "$GNVTG":
+    data = data.decode("utf-8") 
+    print(data[0:6])
+    if data[0:6] == "$GNVTG":
         print("getting speed")
         sdata = data.split(",")
         if sdata[2] == 'V':
