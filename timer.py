@@ -22,7 +22,8 @@ def timer():
             run = int(round(time.time() * 1000))
             if report['class'] == 'DEVICES':
                 print(report)
-            #if report['class'] == 'TPV':
+            if report['class'] == 'TPV':
+                print(report)
             #speed = float(getattr(report, 'speed', 'nan'))
             
             if math.isnan(speed):
@@ -72,6 +73,6 @@ def timer():
             speed = speed + 0.1
             if speed >= 62:
                 speed = 60
-            #time.sleep(0.1)
+            time.sleep(0.1)
     except (KeyboardInterrupt, SystemExit):
         print("Done.\nExiting.")
