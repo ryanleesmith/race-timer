@@ -53,7 +53,7 @@ if __name__ == '__main__':
       time.sleep(.1) #set to whatever
  
   except (KeyboardInterrupt, SystemExit): #when you press ctrl+c
-    print "\nKilling Thread..."
+    print("\nKilling Thread...")
     gpsp.running = False
     gpsp.join() # wait for the thread to finish what it's doing
-  print "Done.\nExiting."
+  print("Done.\nExiting.")
