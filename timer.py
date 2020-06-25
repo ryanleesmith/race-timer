@@ -20,7 +20,7 @@ def timer():
             report = gpsd.next()
             print(int(round(time.time() * 1000)) - run)
             run = int(round(time.time() * 1000))
-            if report['class'] == 'DEVICES' || report['class'] == 'TPV' || report['class'] == 'SKY':
+            if report['class'] == 'DEVICES' or report['class'] == 'TPV' or report['class'] == 'SKY':
                 print(report)
             #speed = float(getattr(report, 'speed', 'nan'))
             
