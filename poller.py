@@ -42,6 +42,7 @@ class Threader(threading.Thread):
     def run(self):
         global poller, mode
         poller = Poller()
+        speed = 0
         try:
             poller.start()
             while True:
@@ -49,11 +50,11 @@ class Threader(threading.Thread):
                     mode = gpsd.fix.mode
                     red.publish('mode', mode)
 
-                speed = gpsd.fix.speed
+                #speed = gpsd.fix.speed
                 if math.isnan(speed):
                     speed = 0
                     red.publish('status', u'SPEED_UNKNOWN')
-                speed = math.floor(speed * 2.237)
+                #speed = math.floor(speed * 2.237)
                 
                 dump = json.dumps({'x': int(round(time.time() * 1000)), 'y': speed})
                 red.publish('speed', u'{}'.format(dump))
@@ -73,13 +74,13 @@ class Threader(threading.Thread):
                             diff = time.time() - self.startTime
                             self.data['30'] = diff
                             dump = json.dumps({'30': diff})
-                            #yield 'event: RESULT\ndata: {}\n\n'.format(dump)
+                            red.publish('result', u'{}'.format(dump))
                         if speed >= 60 and '60' not in self.data:
                             self.finished = True
                             diff = time.time() - startTime
                             self.data['60'] = diff
                             dump = json.dumps({'60': diff})
-                            #yield 'event: RESULT\ndata: {}\n\n'.format(dump)
+                            red.publish('result', u'{}'.format(dump))
                     else:
                         self.prev_speed = 0
                         self.started = False
@@ -92,6 +93,10 @@ class Threader(threading.Thread):
                         red.publish('status', u'FINISHED')
                 elif not self.finished:
                     red.publish('status', u'NOT_READY')
+
+                speed = speed + 0.1
+                if speed >= 62:
+                    speed = 60
                 
                 time.sleep(0.1)
         except (KeyboardInterrupt, SystemExit):

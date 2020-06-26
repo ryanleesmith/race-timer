@@ -33,6 +33,8 @@ def streamer():
                 yield 'event: STATUS\ndata: {}\n\n'.format(message['data'].decode('utf-8'))
             if message['channel'].decode('utf-8') == 'speed':
                 yield 'event: SPEED\ndata: {}\n\n'.format(message['data'].decode('utf-8'))
+            if message['channel'].decode('utf-8') == 'result':
+                yield 'event: RESULT\ndata: {}\n\n'.format(message['data'].decode('utf-8'))
 
 if __name__ == 'app':
     poller.start()
