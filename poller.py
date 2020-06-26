@@ -55,9 +55,9 @@ class Threader(threading.Thread):
                 
                 time.sleep(0.1)
         except (KeyboardInterrupt, SystemExit):
-        print("\nKilling Threader...")
-        poller.running = False
-        poller.join()
+            print("\nKilling Threader...")
+            poller.running = False
+            poller.join()
 
 def start():
     threader = Threader()
