@@ -98,7 +98,7 @@ class Threader(threading.Thread):
                 if speed >= 62:
                     speed = 60
                 
-                time.sleep(0.1)
+                #time.sleep(0.1)
         except (KeyboardInterrupt, SystemExit):
             print("\nKilling Threader...")
             poller.running = False
