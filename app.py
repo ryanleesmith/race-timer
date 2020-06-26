@@ -20,7 +20,7 @@ def stream():
 
 def streamer():
     pubsub = red.pubsub()
-    pubsub.subscribe('mode', 'status', 'speed')
+    pubsub.subscribe('mode', 'status', 'speed', 'result')
     while True:
         message = pubsub.get_message()
         if message and message['type'] == 'message':

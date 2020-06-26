@@ -77,7 +77,7 @@ class Threader(threading.Thread):
                             red.publish('result', u'{}'.format(dump))
                         if speed >= 60 and '60' not in self.data:
                             self.finished = True
-                            diff = time.time() - startTime
+                            diff = time.time() - self.startTime
                             self.data['60'] = diff
                             dump = json.dumps({'60': diff})
                             red.publish('result', u'{}'.format(dump))
