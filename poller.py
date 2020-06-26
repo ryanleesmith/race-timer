@@ -60,37 +60,37 @@ class Threader(threading.Thread):
                 
                 if speed == 0:
                     red.publish('status', u'READY')
-                    start = time.time()
-                    started = True
-                    finished = False
-                    prev_speed = 0
-                    data = {}
-                elif started:
-                    if speed > prev_speed:
+                    self.start = time.time()
+                    self.started = True
+                    self.finished = False
+                    self.prev_speed = 0
+                    self.data = {}
+                elif self.started:
+                    if speed > self.prev_speed:
                         red.publish('status', u'TIMING')
-                        prev_speed = speed
-                        if speed >= 30 and '30' not in data:
-                            diff = time.time() - start
-                            data['30'] = diff
+                        self.prev_speed = speed
+                        if speed >= 30 and '30' not in self.data:
+                            diff = time.time() - self.start
+                            self.data['30'] = diff
                             dump = json.dumps({'30': diff})
                             #yield 'event: RESULT\ndata: {}\n\n'.format(dump)
-                        if speed >= 60 and '60' not in data:
-                            finished = True
+                        if speed >= 60 and '60' not in self.data:
+                            self.finished = True
                             diff = time.time() - start
-                            data['60'] = diff
+                            self.data['60'] = diff
                             dump = json.dumps({'60': diff})
                             #yield 'event: RESULT\ndata: {}\n\n'.format(dump)
                     else:
-                        prev_speed = 0
-                        started = False
+                        self.prev_speed = 0
+                        self.started = False
                         #if '30' not in data:
                         #    data['30'] = 'N/A'
                         #if '60' not in data:
                         #    data['60'] = 'N/A'
                         #yield "data: 30: {}\t60: {}\n\n".format(data['30'], data['60'])
-                    if finished:
+                    if self.finished:
                         red.publish('status', u'FINISHED')
-                elif not finished:
+                elif not self.finished:
                     red.publish('status', u'NOT_READY')
                 
                 time.sleep(0.1)
