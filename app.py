@@ -20,7 +20,7 @@ def stream():
 
 def streamer():
     pubsub = red.pubsub()
-    pubsub.subscribe('mode', 'speed')
+    pubsub.subscribe('mode', 'status', 'speed')
     while True:
         message = pubsub.get_message()
         if message and message['type'] == 'message':
@@ -29,8 +29,9 @@ def streamer():
             #print(message['channel'].decode('utf-8'))
             #print(message['data'])
             #print(message['data'].decode('utf-8'))
+            if message['channel'].decode('utf-8') == 'status':
+                yield 'event: STATUS\ndata: {}\n\n'.format(message['data'].decode('utf-8'))
             if message['channel'].decode('utf-8') == 'speed':
-                #print(message)
                 yield 'event: SPEED\ndata: {}\n\n'.format(message['data'].decode('utf-8'))
 
 if __name__ == 'app':
