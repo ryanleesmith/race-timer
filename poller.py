@@ -50,7 +50,7 @@ class Threader(threading.Thread):
                     mode = gpsd.fix.mode
                     red.publish('mode', mode)
 
-                #speed = gpsd.fix.speed
+                speed = gpsd.fix.speed
                 if math.isnan(speed):
                     speed = 0
                     red.publish('status', u'SPEED_UNKNOWN')
