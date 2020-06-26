@@ -49,7 +49,7 @@ class Threader(threading.Thread):
                     mode = gpsd.fix.mode
                     red.publish('mode', mode)
                 dump = json.dumps({'x': int(round(time.time() * 1000)), 'y': speed})
-                red.publish('speed', dump)
+                red.publish('speed', u'{}'.format(dump))
                 #print(gpsd.satellites)
                 #dump = json.dumps({'x': int(round(time.time() * 1000)), 'y': speed})
                 #yield 'event: SPEED\ndata: {}\n\n'.format(dump)

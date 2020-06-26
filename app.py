@@ -27,7 +27,7 @@ def streamer():
         print(message['channel'])
         print(message['channel'].decode('utf-8'))
         print(message['data'])
-        print(message['data'].decode('utf-8'))
+        #print(message['data'].decode('utf-8'))
         if message['channel'].decode('utf-8') == 'speed':
             print(message)
             yield 'event: SPEED\ndata: {}\n\n'.format(message['data'].decode('utf-8'))
