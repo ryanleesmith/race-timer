@@ -44,7 +44,7 @@ class SpeedThreader(threading.Thread):
     def run(self):
         global gpsPoller
         if not gpsPoller or not gpsPoller.running:
-            try
+            try:
                 gpsPoller = GpsPoller()
                 gpsPoller.start()
             except (KeyboardInterrupt, SystemExit):
@@ -111,7 +111,7 @@ class ModeThreader(threading.Thread):
     def run(self):
         global gpsPoller
         if not gpsPoller or not gpsPoller.running:
-            try
+            try:
                 gpsPoller = GpsPoller()
                 gpsPoller.start()
             except (KeyboardInterrupt, SystemExit):
