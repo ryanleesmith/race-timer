@@ -3,9 +3,12 @@ import math
 import time
 import json
 import threading
+import redis
 
 gpsd = None
 poller = None
+
+red = redis.StrictRedis()
 
 class Poller(threading.Thread):
     def __init__(self):
@@ -25,14 +28,24 @@ class Poller(threading.Thread):
 def start():
     global gpsd, poller
     poller = Poller()
+    mode = None
+
+    pubsub = red.pubsub()
+    pubsub.subscribe('mode')
+    for message in pubsub.listen():
+        print(message)
+
     try:
         poller.start()
         while True:
             speed = gpsd.fix.speed
             if math.isnan(speed):
                 speed = 0
-            print(speed)
-            print(gpsd.fix.mode)
+            #print(speed)
+            #print(gpsd.fix.mode)
+            if gpsd.fix.mode != mode:
+                mode = gpsd.fix.mode
+                red.publish('mode', mode)
             #print(gpsd.satellites)
             #dump = json.dumps({'x': int(round(time.time() * 1000)), 'y': speed})
             #yield 'event: SPEED\ndata: {}\n\n'.format(dump)
