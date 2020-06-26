@@ -31,7 +31,7 @@ def start():
     mode = None
 
     pubsub = red.pubsub()
-    pubsub.subscribe('mode')
+    pubsub.subscribe('mode', 'speed')
     for message in pubsub.listen():
         print(message)
 
@@ -46,6 +46,7 @@ def start():
             if gpsd.fix.mode != mode:
                 mode = gpsd.fix.mode
                 red.publish('mode', mode)
+            red.publish('speed', speed)
             #print(gpsd.satellites)
             #dump = json.dumps({'x': int(round(time.time() * 1000)), 'y': speed})
             #yield 'event: SPEED\ndata: {}\n\n'.format(dump)
