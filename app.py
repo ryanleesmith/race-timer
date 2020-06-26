@@ -15,6 +15,5 @@ def index():
 def stream():
     return Response(timer(), mimetype='text/event-stream')
 
-print(__name__)
-if __name__ == '__main__':
+if __name__ == 'app':
     poller.start()
