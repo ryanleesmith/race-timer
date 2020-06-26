@@ -41,14 +41,14 @@
         source.addEventListener('MODE', function(e) {
           var gps = '';
           switch(e.data) {
-            case 0:
-            case 1:
+            case '0':
+            case '1':
               gps = 'No Fix';
               break;
-            case 2:
+            case '2':
               gps = '2D';
               break;
-            case 3:
+            case '3':
               gps = '3D';
               break;
           }
