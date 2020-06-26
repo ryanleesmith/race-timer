@@ -23,7 +23,7 @@ def streamer():
     pubsub.subscribe('mode', 'speed')
     while True:
         message = pubsub.get_message()
-        if message:
+        if message['channel'].decode('utf-8') == 'speed':
             print(message)
             yield 'event: SPEED\ndata: {}\n\n'.format(message['data'].decode('utf-8'))
 
