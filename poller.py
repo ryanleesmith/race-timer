@@ -34,7 +34,7 @@ class Threader(threading.Thread):
         self.running = True
  
     def run(self):
-        global poller
+        global poller, mode
         poller = Poller()
         try:
             poller.start()
