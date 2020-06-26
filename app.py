@@ -21,10 +21,12 @@ def stream():
 def streamer():
     pubsub = red.pubsub()
     pubsub.subscribe('mode', 'speed')
-    for message in pubsub.listen():
-        print(message)
-        #yield message
-        yield "test"
+    while True:
+        message = pubsub.get_message():
+        if message:
+            print(message)
+            #yield message
+            yield "test"
 
 #if __name__ == 'app':
     #poller.start()
