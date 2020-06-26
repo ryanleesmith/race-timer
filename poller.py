@@ -54,7 +54,7 @@ class Threader(threading.Thread):
                 if math.isnan(speed):
                     speed = 0
                     red.publish('status', u'SPEED_UNKNOWN')
-                #speed = math.floor(speed * 2.237)
+                speed = math.floor(speed * 2.237)
                 
                 dump = json.dumps({'x': int(round(time.time() * 1000)), 'y': speed})
                 red.publish('speed', u'{}'.format(dump))
@@ -93,10 +93,6 @@ class Threader(threading.Thread):
                         red.publish('status', u'FINISHED')
                 elif not self.finished:
                     red.publish('status', u'NOT_READY')
-
-                speed = speed + 0.1
-                if speed >= 62:
-                    speed = 60
                 
                 #time.sleep(0.1)
         except (KeyboardInterrupt, SystemExit):
