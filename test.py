@@ -1,4 +1,5 @@
 import serial
+import time
  
 port = "/dev/serial0"
  
@@ -24,6 +25,7 @@ def parseGPS(data):
  
         #print "time : %s, latitude : %s(%s), longitude : %s(%s), speed : %s, True Course : %s, Date : %s" %  (time,lat,dirLat,lon,dirLon,speed,trCourse,date)
         print(speed)
+        time.sleep(0.1)
  
 def decode(coord):
     #Converts DDDMM.MMMMM > DD deg MM.MMMMM min
