@@ -128,7 +128,7 @@ class ModeThreader(threading.Thread):
 
 def start():
     modeThreader = ModeThreader()
-    speedThreader = speedThreader()
+    speedThreader = SpeedThreader()
     try:
         modeThreader.start()
         speedThreader.start()
