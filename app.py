@@ -22,7 +22,7 @@ def streamer():
     pubsub = red.pubsub()
     pubsub.subscribe('mode', 'speed')
     while True:
-        message = pubsub.get_message():
+        message = pubsub.get_message()
         if message:
             print(message)
             #yield message
