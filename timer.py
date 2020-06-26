@@ -22,7 +22,7 @@ class Poller(threading.Thread):
             gpsd.next()
 
 def timer():
-    poller = new Poller()
+    poller = Poller()
     try:
         poller.start()
         while True:
