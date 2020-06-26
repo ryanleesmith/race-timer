@@ -30,9 +30,12 @@ def start():
     poller = Poller()
     mode = None
 
+    print("start")
+
     try:
         poller.start()
         while True:
+            print("loop")
             speed = gpsd.fix.speed
             if math.isnan(speed):
                 speed = 0
