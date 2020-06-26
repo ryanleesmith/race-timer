@@ -52,8 +52,9 @@ class SpeedThreader(threading.Thread):
         while True:
             speed = gpsd.fix.speed
             if math.isnan(speed):
-                speed = 0
                 red.publish('status', u'SPEED_UNKNOWN')
+                continue
+
             speed = math.floor(speed * 2.237)
             
             dump = json.dumps({'x': int(round(time.time() * 1000)), 'y': speed})
