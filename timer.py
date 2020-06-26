@@ -31,7 +31,7 @@ def timer():
             speed = gpsd.fix.speed
             if math.isnan(speed):
                 speed = 0
-            print(speed)
+            #print(speed)
             print(gpsd.fix.mode)
             print(gpsd.satellites)
             dump = json.dumps({'x': int(round(time.time() * 1000)), 'y': speed})
