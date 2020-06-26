@@ -7,7 +7,7 @@ import threading
 gpsd = None
 
 class Poller(threading.Thread):
-    def __init(self):
+    def __init__(self):
         threading.Thread.__init__(self)
 
         global gpsd
