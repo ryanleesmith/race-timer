@@ -30,11 +30,6 @@ def start():
     poller = Poller()
     mode = None
 
-    pubsub = red.pubsub()
-    pubsub.subscribe('mode', 'speed')
-    for message in pubsub.listen():
-        print(message)
-
     try:
         poller.start()
         while True:

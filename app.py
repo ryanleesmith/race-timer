@@ -25,5 +25,5 @@ def streamer():
         print(message)
         yield message
 
-if __name__ == 'app':
-    poller.start()
+#if __name__ == 'app':
+    #poller.start()
