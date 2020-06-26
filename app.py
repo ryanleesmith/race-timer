@@ -1,6 +1,7 @@
 from flask import Flask, render_template, Response
 from gps import *
 from timer import timer
+import poller
 import math
 import time
 
@@ -13,3 +14,6 @@ def index():
 @app.route('/stream')
 def stream():
     return Response(timer(), mimetype='text/event-stream')
+
+if __name__ == '__main__':
+    poller.start()
