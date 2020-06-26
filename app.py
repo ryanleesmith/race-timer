@@ -29,6 +29,8 @@ def streamer():
             #print(message['channel'].decode('utf-8'))
             #print(message['data'])
             #print(message['data'].decode('utf-8'))
+            if message['channel'].decode('utf-8') == 'mode':
+                yield 'event: MODE\ndata: {}\n\n'.format(message['data'])
             if message['channel'].decode('utf-8') == 'status':
                 yield 'event: STATUS\ndata: {}\n\n'.format(message['data'].decode('utf-8'))
             if message['channel'].decode('utf-8') == 'speed':

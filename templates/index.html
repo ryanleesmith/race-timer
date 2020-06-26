@@ -38,6 +38,25 @@
       if (!!window.EventSource) {
         var source = new EventSource('/stream')
 
+        source.addEventListener('MODE', function(e) {
+          var gps = '';
+          switch(e.data) {
+            case 0:
+              gps = 'Unknown';
+              break;
+            case 1:
+              gps = 'No Fix';
+              break;
+            case 2:
+              gps = '2D';
+              break;
+            case 3:
+              gps = '3D';
+              break;
+          }
+          document.getElementById('gps').innerHTML = gps;
+        }, false)
+
         source.addEventListener('STATUS', function(e) {
           var status = '';
           switch(e.data) {
@@ -104,6 +123,7 @@
 <body>
   <h3>SSE: <span id="state"></span></h3>
   <h3>Status: <span id="status"></span></h3>
+  <h3>GPS Signal: <span id="gps"></span></h3>
   <h3>0-30: <span id="30"></span></h3>
   <h3>0-60: <span id="60"></span></h3>
   <div id="chartContainer" style="height: 300px; width: 100%;"></div>
