@@ -5,6 +5,7 @@ import json
 import threading
 
 gpsd = None
+poller = None
 
 class Poller(threading.Thread):
     def __init__(self):
@@ -17,12 +18,12 @@ class Poller(threading.Thread):
         self.running = True
  
     def run(self):
-        global gpsd
+        global gpsd, poller
         while poller.running:
             gpsd.next()
 
 def timer():
-    global gpsd
+    global gpsd, poller
     poller = Poller()
     try:
         poller.start()
