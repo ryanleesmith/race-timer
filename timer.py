@@ -32,6 +32,8 @@ def timer():
             if math.isnan(speed):
                 speed = 0
             print(speed)
+            print(gpsd.fix.mode)
+            print(gpsd.satellites)
             dump = json.dumps({'x': int(round(time.time() * 1000)), 'y': speed})
             yield 'event: SPEED\ndata: {}\n\n'.format(dump)
             
