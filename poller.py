@@ -17,8 +17,6 @@ class GpsPoller(threading.Thread):
         global gpsd
         gpsd = gps(mode=WATCH_ENABLE|WATCH_NEWSTYLE)
 
-        self.mode = None
-
         self.current_value = None
         self.running = True
  
@@ -26,9 +24,6 @@ class GpsPoller(threading.Thread):
         global gpsd
         while self.running:
             gpsd.next()
-            self.mode = gpsd.fix.mode
-            print("gps poller")
-            print(self.mode)
 
 class SpeedThreader(threading.Thread):
     def __init__(self):
@@ -105,8 +100,6 @@ class ModeThreader(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
 
-        self.mode = None
-
         self.current_value = None
         self.running = True
  
@@ -122,12 +115,7 @@ class ModeThreader(threading.Thread):
                 gpsPoller.join()
 
         while True:
-            print("mode threader")
-            print(gpsPoller.mode)
-            if self.mode != gpsPoller.mode:
-                self.mode = gpsPoller.mode
-                red.publish('mode', self.mode)
-
+            red.publish('mode', gpsd.fix.mode)
             time.sleep(1)
 
 def start():
