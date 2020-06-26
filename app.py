@@ -23,7 +23,8 @@ def streamer():
     pubsub.subscribe('mode', 'speed')
     for message in pubsub.listen():
         print(message)
-        yield message
+        #yield message
+        yield "test"
 
 #if __name__ == 'app':
     #poller.start()
