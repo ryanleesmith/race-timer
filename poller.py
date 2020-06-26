@@ -30,7 +30,7 @@ class Threader(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
 
-        self.start = 0
+        self.startTime = 0
         self.started = False
         self.finished = False
         self.prev_speed = 0
@@ -60,7 +60,7 @@ class Threader(threading.Thread):
                 
                 if speed == 0:
                     red.publish('status', u'READY')
-                    self.start = time.time()
+                    self.startTime = time.time()
                     self.started = True
                     self.finished = False
                     self.prev_speed = 0
@@ -70,13 +70,13 @@ class Threader(threading.Thread):
                         red.publish('status', u'TIMING')
                         self.prev_speed = speed
                         if speed >= 30 and '30' not in self.data:
-                            diff = time.time() - self.start
+                            diff = time.time() - self.startTime
                             self.data['30'] = diff
                             dump = json.dumps({'30': diff})
                             #yield 'event: RESULT\ndata: {}\n\n'.format(dump)
                         if speed >= 60 and '60' not in self.data:
                             self.finished = True
-                            diff = time.time() - start
+                            diff = time.time() - startTime
                             self.data['60'] = diff
                             dump = json.dumps({'60': diff})
                             #yield 'event: RESULT\ndata: {}\n\n'.format(dump)
