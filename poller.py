@@ -39,7 +39,7 @@ class Threader(threading.Thread):
         try:
             poller.start()
             while True:
-                print("loop")
+                #print("loop")
                 speed = gpsd.fix.speed
                 if math.isnan(speed):
                     speed = 0
@@ -48,7 +48,8 @@ class Threader(threading.Thread):
                 if gpsd.fix.mode != mode:
                     mode = gpsd.fix.mode
                     red.publish('mode', mode)
-                red.publish('speed', speed)
+                dump = json.dumps({'x': int(round(time.time() * 1000)), 'y': speed})
+                red.publish('speed', dump)
                 #print(gpsd.satellites)
                 #dump = json.dumps({'x': int(round(time.time() * 1000)), 'y': speed})
                 #yield 'event: SPEED\ndata: {}\n\n'.format(dump)

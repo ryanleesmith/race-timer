@@ -25,8 +25,7 @@ def streamer():
         message = pubsub.get_message()
         if message:
             print(message)
-            #yield message
-            yield "test"
+            yield 'event: SPEED\ndata: {}\n\n'.format(message.decode('utf-8'))
 
 if __name__ == 'app':
     poller.start()
