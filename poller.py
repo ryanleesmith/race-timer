@@ -54,7 +54,7 @@ class GpsPoller(threading.Thread):
                     else:
                         self.prev_speed = 0
                         self.started = False
-            self.speed += 0.1
+            self.speed += 1
 
 class SpeedThreader(threading.Thread):
     def __init__(self):
