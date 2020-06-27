@@ -20,7 +20,7 @@ class GpsPoller(threading.Thread):
         self.startTime = 0
         self.started = False
         self.finished = False
-        self.speed = 0 #math.nan
+        self.speed = math.nan
         self.prev_speed = 0
         self.data = {}
 
@@ -31,9 +31,9 @@ class GpsPoller(threading.Thread):
         global gpsd
         while self.running:
             gpsd.next()
-            #self.speed = gpsd.fix.speed
+            self.speed = gpsd.fix.speed
             if not math.isnan(self.speed):
-                #self.speed = math.floor(self.speed * 2.237)
+                self.speed = math.floor(self.speed * 2.237)
 
                 if self.speed == 0:
                     self.startTime = time.time()
@@ -55,9 +55,6 @@ class GpsPoller(threading.Thread):
                     else:
                         self.prev_speed = 0
                         self.started = False
-            self.speed += 1
-            if self.speed >= 62:
-                self.speed = 0
 
 class SpeedThreader(threading.Thread):
     def __init__(self):
