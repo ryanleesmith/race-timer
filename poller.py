@@ -48,6 +48,7 @@ class GpsPoller(threading.Thread):
                             diff = time.time() - self.startTime
                             self.data['30'] = diff
                         if self.speed >= 60 and '60' not in self.data:
+                            self.started = False
                             self.finished = True
                             diff = time.time() - self.startTime
                             self.data['60'] = diff
@@ -87,16 +88,11 @@ class SpeedThreader(threading.Thread):
             elif gpsPoller.started:
                 if gpsPoller.speed > gpsPoller.prev_speed:
                     red.publish('status', u'TIMING')
-                    if '30' in gpsPoller.data:
-                        dump = json.dumps({'30': gpsPoller.data['30']})
-                        red.publish('result', u'{}'.format(dump))
-                    if '60' in gpsPoller.data:
-                        dump = json.dumps({'60': gpsPoller.data['30']})
-                        red.publish('result', u'{}'.format(dump))
                 #else:
                     ## ?
-                if gpsPoller.finished:
-                    red.publish('status', u'FINISHED')
+            elif gpsPoller.finished:
+                red.publish('status', u'FINISHED')
+                dump = json.dumps({'30': gpsPoller.data['30'], '60': gpsPoller.data['60']})
             elif not gpsPoller.finished:
                 red.publish('status', u'NOT_READY')
             
