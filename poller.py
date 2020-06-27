@@ -33,7 +33,7 @@ class GpsPoller(threading.Thread):
             gpsd.next()
             #self.speed = gpsd.fix.speed
             if not math.isnan(self.speed):
-                self.speed = math.floor(self.speed * 2.237)
+                #self.speed = math.floor(self.speed * 2.237)
 
                 if self.speed == 0:
                     self.startTime = time.time()
