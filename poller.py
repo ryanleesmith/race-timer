@@ -56,6 +56,8 @@ class GpsPoller(threading.Thread):
                         self.prev_speed = 0
                         self.started = False
             self.speed += 1
+            if self.speed >= 62:
+                self.speed = 0
 
 class SpeedThreader(threading.Thread):
     def __init__(self):
@@ -93,6 +95,7 @@ class SpeedThreader(threading.Thread):
             elif gpsPoller.finished:
                 red.publish('status', u'FINISHED')
                 dump = json.dumps({'30': gpsPoller.data['30'], '60': gpsPoller.data['60']})
+                red.publish('result', u'{}'.format(dump))
             elif not gpsPoller.finished:
                 red.publish('status', u'NOT_READY')
             
