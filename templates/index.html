@@ -87,14 +87,19 @@
         }, false)
 
         source.addEventListener('RESULT', function(e) {
+          var node = document.createElement('li');
+          
           var data = JSON.parse(e.data);
           if (data['30']) {
-            document.getElementById('30').innerHTML = data['30'];
+            var textnode = document.createTextNode('30: ' + data['30']);
+            node.appendChild(textnode);
           }
           if (data['60']) {
-            document.getElementById('60').innerHTML = data['60'];
+            var textnode = document.createTextNode('60: ' + data['60']);
+            node.appendChild(textnode);
           }
-          updateChart();
+          
+          document.getElementById("results").appendChild(node);
         }, false)
 
         source.addEventListener('open', function(e) {
@@ -122,8 +127,8 @@
   <h3>SSE: <span id="state"></span></h3>
   <h3>Status: <span id="status"></span></h3>
   <h3>GPS Signal: <span id="gps"></span></h3>
-  <h3>0-30: <span id="30"></span></h3>
-  <h3>0-60: <span id="60"></span></h3>
   <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+  <h3>Results:</h3>
+  <ul id="results"></ul>
 </body>
 </html>
