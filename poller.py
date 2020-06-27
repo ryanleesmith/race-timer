@@ -17,6 +17,13 @@ class GpsPoller(threading.Thread):
         global gpsd
         gpsd = gps(mode=WATCH_ENABLE|WATCH_NEWSTYLE)
 
+        self.startTime = 0
+        self.started = False
+        self.finished = False
+        self.speed = math.nan
+        self.prev_speed = 0
+        self.data = {}
+
         self.current_value = None
         self.running = True
  
@@ -24,16 +31,33 @@ class GpsPoller(threading.Thread):
         global gpsd
         while self.running:
             gpsd.next()
+            self.speed = gpsd.fix.speed
+            if not math.isnan(self.speed):
+                self.speed = math.floor(self.speed * 2.237)
+
+                if self.speed == 0:
+                    self.startTime = time.time()
+                    self.started = True
+                    self.finished = False
+                    self.prev_speed = 0
+                    self.data = {}
+                elif self.started:
+                    if self.speed > self.prev_speed:
+                        self.prev_speed = self.speed
+                        if self.speed >= 30 and '30' not in self.data:
+                            diff = time.time() - self.startTime
+                            self.data['30'] = diff
+                        if self.speed >= 60 and '60' not in self.data:
+                            self.finished = True
+                            diff = time.time() - self.startTime
+                            self.data['60'] = diff
+                    else:
+                        self.prev_speed = 0
+                        self.started = False
 
 class SpeedThreader(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
-
-        self.startTime = 0
-        self.started = False
-        self.finished = False
-        self.prev_speed = 0
-        self.data = {}
 
         self.current_value = None
         self.running = True
@@ -50,52 +74,32 @@ class SpeedThreader(threading.Thread):
                 gpsPoller.join()
 
         while True:
-            speed = gpsd.fix.speed
-            if math.isnan(speed):
+            if math.isnan(gpsPoller.speed):
                 red.publish('status', u'SPEED_UNKNOWN')
                 continue
-
-            speed = math.floor(speed * 2.237)
             
-            dump = json.dumps({'x': int(round(time.time() * 1000)), 'y': speed})
+            dump = json.dumps({'x': int(round(time.time() * 1000)), 'y': gpsPoller.speed})
             red.publish('speed', u'{}'.format(dump))
             
-            if speed == 0:
+            if gpsPoller.speed == 0:
                 red.publish('status', u'READY')
-                self.startTime = time.time()
-                self.started = True
-                self.finished = False
-                self.prev_speed = 0
-                self.data = {}
-            elif self.started:
-                if speed > self.prev_speed:
+            elif gpsPoller.started:
+                if gpsPoller.speed > gpsPoller.prev_speed:
                     red.publish('status', u'TIMING')
-                    self.prev_speed = speed
-                    if speed >= 30 and '30' not in self.data:
-                        diff = time.time() - self.startTime
-                        self.data['30'] = diff
-                        dump = json.dumps({'30': diff})
+                    if '30' in gpsPoller.data:
+                        dump = json.dumps({'30': gpsPoller.data['30']})
                         red.publish('result', u'{}'.format(dump))
-                    if speed >= 60 and '60' not in self.data:
-                        self.finished = True
-                        diff = time.time() - self.startTime
-                        self.data['60'] = diff
-                        dump = json.dumps({'60': diff})
+                    if '60' in gpsPoller.data:
+                        dump = json.dumps({'60': gpsPoller.data['30']})
                         red.publish('result', u'{}'.format(dump))
-                else:
-                    self.prev_speed = 0
-                    self.started = False
-                    #if '30' not in data:
-                    #    data['30'] = 'N/A'
-                    #if '60' not in data:
-                    #    data['60'] = 'N/A'
-                    #yield "data: 30: {}\t60: {}\n\n".format(data['30'], data['60'])
-                if self.finished:
+                #else:
+                    ## ?
+                if gpsPoller.finished:
                     red.publish('status', u'FINISHED')
-            elif not self.finished:
+            elif not gpsPoller.finished:
                 red.publish('status', u'NOT_READY')
             
-            #time.sleep(0.1)
+            time.sleep(0.1)
 
 class ModeThreader(threading.Thread):
     def __init__(self):
